@@ -4,7 +4,7 @@ torchmil
 
 ## Description
 
-This repo contains the implementation of a model for Multi-Instance Logistic Regression in PyTorch.
+This repo contains the implementation of Multi-Instance Logistic Regression in PyTorch.
 
 
 ## Usage
