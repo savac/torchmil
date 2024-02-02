@@ -1,10 +1,10 @@
 # Project Name
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+torchmil
 
 ## Description
 
-This repo contains the implementation of a model for multi-instance logistic regression in PyTorch.
+This repo contains the implementation of a model for Multi-Instance Logistic Regression in PyTorch.
 
 
 ## Usage
@@ -28,7 +28,7 @@ from mil import make_dataset_from_dataframe
 model = MILR()
 
 # Prepare your data
-raw_data = loadarff('./data/musk1/musk.arff')
+raw_data = loadarff('./data/musk2/musk.arff')
 data = pd.DataFrame(raw_data[0])
 data.rename(columns={'class': 'target'}, inplace=True)
 data.target = data.target.astype(int)

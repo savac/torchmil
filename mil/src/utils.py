@@ -3,11 +3,13 @@ import numpy as np
 from typing import List
 
 
-def make_dataset_from_dataframe(df: pd.DataFrame, feature_names: List[str], target_name: str, bag_name: str):
+def make_dataset_from_dataframe(
+    df: pd.DataFrame, feature_names: List[str], target_name: str, bag_name: str
+):
     """Given a dataframe, create a dataset suitable for training a MILR model.
 
     Args:
-        df (pd.DataFrame): Full dataset with features, target variable, and a variable 
+        df (pd.DataFrame): Full dataset with features, target variable, and a variable
             denoting the bag membership
         feature_names (List[str]): List of features
         target_name (str): Target variable name
