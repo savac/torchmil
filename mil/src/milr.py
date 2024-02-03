@@ -15,25 +15,40 @@ class MILR(nn.Module):
         super().__init__()
 
         self.linear = None
+        self.softmax_parameter = None
         self.bag_fn = None
 
     def forward(self, X, bags, padding_mask, bag_fn):
         self.bag_fn = bag_fn
 
         instance_logits = self.linear(X)
+        bagged_instance_logits = instance_logits[bags].squeeze()
+        bagged_instance_logits.masked_fill_(padding_mask, -torch.inf)
 
         if bag_fn == "max":
-            bags_on_rows = instance_logits[bags].squeeze()
-            bags_on_rows.masked_fill_(padding_mask, -np.inf)
-            bags_max = bags_on_rows.amax(dim=1, keepdim=True)
-            bags_logits = torch.cat(
-                [torch.zeros(bags_max.shape[0], 1), bags_max], dim=1
-            )
-            bags_log_probs = F.log_softmax(bags_logits, dim=1)
+            bag_logits = bagged_instance_logits.amax(dim=1, keepdim=True)
+
+        elif bag_fn == "softmax":
+            bag_lengths = (~padding_mask).sum(dim=1, keepdim=True).float()
+
+            softplus = nn.Softplus()
+            softmax_parameter = softplus(self.softmax_parameter)
+
+            x = bagged_instance_logits * softmax_parameter
+            m = x.amax(dim=1, keepdim=True)
+            x0 = x - m
+
+            sum_exp = torch.sum(torch.exp(x0), dim=1, keepdim=True)
+            bag_logits = (m + torch.log(sum_exp / bag_lengths)) / softmax_parameter
+
         else:
             raise NotImplementedError
 
-        return bags_log_probs
+        bag_logits = torch.cat([torch.zeros(bag_logits.shape[0], 1), bag_logits], dim=1)
+        bag_log_probs = F.log_softmax(bag_logits, dim=1)
+
+        print(torch.exp(bag_log_probs))
+        return bag_log_probs
 
     def fit(
         self,
@@ -52,10 +67,12 @@ class MILR(nn.Module):
         bags, padding_mask = self._process_bags(bags, padding_value)
 
         self.linear = torch.nn.Linear(X.shape[1], 1)
+        self.softmax_parameter = nn.Parameter(torch.tensor(1.0), requires_grad=True)
 
         loss_function = nn.NLLLoss()
+
         if optimizer is None:
-            optimizer = optim.Adam(self.parameters(), lr=lr)
+            optimizer = optim.SGD(self.parameters(), lr=lr)
 
         self.metrics = []
         for _ in range(epochs):
@@ -65,6 +82,9 @@ class MILR(nn.Module):
             loss = loss_function(log_probs, y)
             loss.backward()
             optimizer.step()
+
+            if loss.isnan():
+                raise ValueError("Loss is NaN.")
 
             self.metrics.append(
                 {

@@ -4,7 +4,10 @@ torchmil
 
 ## Description
 
-This repo contains the implementation of Multi-Instance Logistic Regression in PyTorch.
+This repo contains the implementation of Multi-Instance Logistic Regression in PyTorch. 
+
+The library offers several alternatives for definining the relationship between the instance probability, $p_{ij}$, and the
+bag probability, $p_i$. One of the standard approaches is $p_i = max(p_{ij})$[^1]. 
 
 
 ## Usage
@@ -37,4 +40,9 @@ feature_names = [f'f{i}' for i in range(1, 167)]
 X, y, bags = make_dataset_from_dataframe(data, feature_names, 'target', 'molecule_name')
 
 # Train the model
-model.fit(X, y, bags, epochs=100, lr=1e-2, bag_fn='max')```
+model.fit(X, y, bags, epochs=100, lr=1e-2, bag_fn='max')
+```
+
+
+
+[^1]: [Multiple Instance Learning: Algorithms and Applications](https://api.semanticscholar.org/CorpusID:2153770)
