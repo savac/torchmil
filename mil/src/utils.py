@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from typing import List
+import torch
 
 
 def make_dataset_from_dataframe(
@@ -29,3 +30,31 @@ def make_dataset_from_dataframe(
     y = np.array(y)
     X = df[feature_names].values
     return X, y, bags
+
+
+def invlogit(x):
+    return 1 / (1 + torch.exp(-x))
+
+
+def logsumexp_safe(x, r, mask):
+    # x domain should be [0, 1] so we set the padded values to 0
+    x *= mask.float()
+    m = x.amax(dim=1, keepdim=True)
+    x0 = x - m
+    bag_lengths = mask.float().sum(dim=1, keepdim=True)
+    return (
+        r * m
+        + torch.log(
+            torch.sum(torch.exp(r * x0) * mask.float(), dim=1, keepdims=True)
+            / bag_lengths
+        )
+    ) / r
+
+
+def generalized_mean(x, r, mask):
+    # x domain should be [0, 1] so we set the padded values to 0
+    x *= mask.float()
+    bag_lengths = mask.float().sum(dim=1, keepdim=True)
+    return torch.pow(
+        torch.sum(torch.pow(x, r), dim=1, keepdims=True) / bag_lengths, 1 / r
+    )
