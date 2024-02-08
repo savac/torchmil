@@ -45,7 +45,7 @@ def logsumexp_safe(x, r, mask):
     return (
         r * m
         + torch.log(
-            torch.sum(torch.exp(r * x0) * mask.float(), dim=1, keepdims=True)
+            torch.sum(torch.exp(r * x0) * mask.float(), dim=1, keepdim=True)
             / bag_lengths
         )
     ) / r
@@ -56,5 +56,5 @@ def generalized_mean(x, r, mask):
     x *= mask.float()
     bag_lengths = mask.float().sum(dim=1, keepdim=True)
     return torch.pow(
-        torch.sum(torch.pow(x, r), dim=1, keepdims=True) / bag_lengths, 1 / r
+        torch.sum(torch.pow(x, r), dim=1, keepdim=True) / bag_lengths, 1 / r
     )
