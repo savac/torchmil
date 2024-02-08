@@ -5,7 +5,15 @@
 This repo contains the implementation of Multi-Instance Logistic Regression in PyTorch. 
 
 The library offers several alternatives for definining the relationship between the instance probability, $p_{ij}$, and the
-bag probability, $p_i$. One of the standard approaches is $p_i = max(p_{ij})$[^1]. 
+bag probability, $p_i$ as outlined in Section 2.4.1 here[^1].
+
+| Name        | Relation           | Option name  |
+| ------------- |:-------------:| -----:|
+| Max           | $p(i) = max(p_{ij})$  | max |
+| Logsumexp     |                       |   logsumexp |
+| Generalized mean  |       | generalized_mean  |
+| Product           |       | prduct            |
+| Likelihood ration |       | likelihood_ratio  |
 
 
 ## Usage
