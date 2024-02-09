@@ -113,7 +113,7 @@ class MILR(nn.Module):
         loss_function = nn.NLLLoss()
 
         if optimizer is None:
-            optimizer = optim.SGD(self.parameters(), lr=lr)
+            optimizer = optim.AdamW(self.parameters(), lr=lr, weight_decay=1e-4)
 
         self.metrics = []
         for _ in range(epochs):
