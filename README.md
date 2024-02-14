@@ -13,7 +13,7 @@ bag probability, $p_i$ as outlined in Section 2.4.1 here[^1].
 | Logsumexp     |                       |   logsumexp |
 | Generalized mean  |       | generalized_mean  |
 | Product           |       | prduct            |
-| Likelihood ration |       | likelihood_ratio  |
+| Likelihood ratio |       | likelihood_ratio  |
 
 
 ## Usage
