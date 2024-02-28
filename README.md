@@ -9,11 +9,11 @@ bag probability, $p_i$ as outlined in Section 2.4.1 here[^1].
 
 | Name        | Relation           | Option name  |
 | ------------- |:-------------:| -----:|
-| Max           | $p(i) = max(p_{ij})$  | max |
-| Logsumexp     |                       |   logsumexp |
-| Generalized mean  |       | generalized_mean  |
-| Product           |       | prduct            |
-| Likelihood ratio |       | likelihood_ratio  |
+| Max           | $p(i) = \underset{j}{max}(p_{ij})$  | max |
+| Logsumexp     | $\frac{1}{r}\ln\frac{1}{m}\sum_{\ell}\exp(rv_{\ell})$  |   logsumexp |
+| Generalized mean  | \(\left(\frac{1}{m}\sum_{\ell}v_{\ell}^{r}\right)^{\frac{1}{r}}\)      | generalized_mean  |
+| Product           | \(1-\prod_{\ell}(1-v_{\ell})\)    | prduct            |
+| Likelihood ratio | \(\frac{\sum_{\ell}v_{\ell}^{\prime}}{1+\sum_{\ell}v_{\ell}^{\prime}}\), \(v_{\ell}^{\prime}=\frac{v_{\ell}}{1-v_{\ell}}\)       | likelihood_ratio  |
 
 
 ## Usage
@@ -33,7 +33,6 @@ get_example_data.sh
 from milr import MILR
 from mil import make_dataset_from_dataframe
 
-# Initialize the model
 model = MILR()
 
 # Prepare your data
