@@ -18,8 +18,6 @@ bag probability, $p_i$ as outlined in Section 2.4.1 here[^1].
 
 ## Usage
 
-Instructions on how to use your project.
-
 Here's how to create an instance of the `MILR` class and train it:
 
 ##### Download example data
