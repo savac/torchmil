@@ -11,9 +11,9 @@ bag probability, $p_i$ as outlined in Section 2.4.1 here[^1].
 | ------------- |:-------------:| -----:|
 | Max           | $p(i) = \underset{j}{max}(p_{ij})$  | max |
 | Logsumexp     | $\frac{1}{r}\ln\frac{1}{m}\sum_{\ell}\exp(rv_{\ell})$  |   logsumexp |
-| Generalized mean  | \(\left(\frac{1}{m}\sum_{\ell}v_{\ell}^{r}\right)^{\frac{1}{r}}\)      | generalized_mean  |
-| Product           | \(1-\prod_{\ell}(1-v_{\ell})\)    | prduct            |
-| Likelihood ratio | \(\frac{\sum_{\ell}v_{\ell}^{\prime}}{1+\sum_{\ell}v_{\ell}^{\prime}}\), \(v_{\ell}^{\prime}=\frac{v_{\ell}}{1-v_{\ell}}\)       | likelihood_ratio  |
+| Generalized mean  | $\left(\frac{1}{m}\sum_{\ell}v_{\ell}^{r}\right)^{\frac{1}{r}}$      | generalized_mean  |
+| Product           | $1-\prod_{\ell}(1-v_{\ell})$    | prduct            |
+| Likelihood ratio | $\frac{\sum_{\ell}v_{\ell}^{\prime}}{1+\sum_{\ell}v_{\ell}^{\prime}}, v_{\ell}^{\prime}=\frac{v_{\ell}}{1-v_{\ell}}$       | likelihood_ratio  |
 
 
 ## Usage
